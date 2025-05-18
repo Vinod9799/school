@@ -112,7 +112,10 @@ class ExamRepo
 
     public function getExamYears($student_id)
     {
-        return Mark::where('student_id', $student_id)->select('year')->distinct()->get();
+        $s =  Mark::where('student_id', $student_id)->select('year')->distinct()->get();
+
+
+        return $s;
     }
 
     public function getMark($data)

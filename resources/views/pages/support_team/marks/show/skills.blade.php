@@ -16,7 +16,7 @@
                                 <select data-placeholder="Select" name="af[]" id="af" class="form-control select">
                                     <option value=""></option>
                                     @for($i=1; $i<=5; $i++)
-                                        <option {{ $exr->af && explode(',', $exr->af)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
+                                        <option {{ $exr->af == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
 
@@ -51,7 +51,7 @@
                                 <select data-placeholder="Select" name="ps[]" id="ps" class="form-control select">
                                     <option value=""></option>
                                     @for($i=1; $i<=5; $i++)
-                                        <option {{ $exr->ps && explode(',', $exr->ps)[$loop->index] == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
+                                        <option {{ $exr->ps == $i ? 'selected' : '' }} value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
                             </div>

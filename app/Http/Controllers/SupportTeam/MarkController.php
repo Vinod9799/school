@@ -27,7 +27,7 @@ class MarkController extends Controller
         $this->my_class =  $my_class;
         $this->year =  Qs::getSetting('current_session');
 
-       // $this->middleware('teamSAT', ['except' => ['show', 'year_selected', 'year_selector', 'print_view'] ]);
+        $this->middleware('teamSAT', ['except' => ['show', 'year_selected', 'year_selector', 'print_view'] ]);
     }
 
     public function index()
@@ -143,23 +143,25 @@ class MarkController extends Controller
         $d2 = $req->only(['exam_id', 'my_class_id', 'section_id']);
         $d = $req->only(['my_class_id', 'section_id']);
         $d['session'] = $data['year'] = $d2['year'] = $this->year;
-
         $students = $this->student->getRecord($d)->get();
+
         if($students->count() < 1){
+           // dd('sdf');
             return back()->with('pop_error', __('msg.rnf'));
         }
-
         foreach ($students as $s){
             $data['student_id'] = $d2['student_id'] = $s->user_id;
-            $this->exam->createMark($data);
+
+             $this->exam->createMark($data);
             $this->exam->createRecord($d2);
         }
-
+      //  dd($req->exam_id, $req->my_class_id, $req->section_id, $req->subject_id);
         return redirect()->route('marks.manage', [$req->exam_id, $req->my_class_id, $req->section_id, $req->subject_id]);
     }
 
     public function manage($exam_id, $class_id, $section_id, $subject_id)
     {
+        //dd($exam_id, $class_id, $section_id, $subject_id);
         $d = ['exam_id' => $exam_id, 'my_class_id' => $class_id, 'section_id' => $section_id, 'subject_id' => $subject_id, 'year' => $this->year];
 
         $d['marks'] = $this->exam->getMark($d);
@@ -172,6 +174,7 @@ class MarkController extends Controller
         $d['my_classes'] = $this->my_class->all();
         $d['sections'] = $this->my_class->getAllSections();
         $d['subjects'] = $this->my_class->getAllSubjects();
+       // dd($d);
         if(Qs::userIsTeacher()){
             $d['subjects'] = $this->my_class->findSubjectByTeacher(Auth::user()->id)->where('my_class_id', $class_id);
         }
@@ -330,6 +333,7 @@ class MarkController extends Controller
 
     public function skills_update(Request $req, $skill, $exr_id)
     {
+        //dd($req);
         $d = [];
         if($skill == 'AF' || $skill == 'PS'){
             $sk = strtolower($skill);
@@ -432,8 +436,8 @@ class MarkController extends Controller
         $d['s'] = Setting::all()->flatMap(function($s){
             return [$s->type => $s->description];
         });
-        //$d['class_type'] = $this->my_class->findTypeByClass($mc->id);
-        //$d['ct'] = $ct = $d['class_type']->code;
+        $d['class_type'] = $this->my_class->findTypeByClass($mc->id);
+        $d['ct'] = $ct = $d['class_type']->code;
 
         return view('pages.support_team.marks.tabulation.print', $d);
     }
