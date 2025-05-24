@@ -35,8 +35,8 @@ class SalaryController extends Controller
     }
     public function index()
     {
-        $salaries = Salary::all();
-        $driver = Driver::all();
+        $salaries = Salary::orderBy('id','desc')->get();
+        $driver = Driver::orderBy('id','desc')->get();
         return view('pages.support_team.salaries.index', compact('salaries','driver'));
     }
 
@@ -59,6 +59,7 @@ class SalaryController extends Controller
         $data['total_pay'] = $data['basic'] + ($data['fuel_expense'] ?? 0) + ($data['other_expense'] ?? 0);
 
         Salary::create($data);
+        return Qs::jsonStoreOk();
         return redirect()->route('salaries.index')->with('success', 'Salary added successfully');
     }
 
@@ -70,22 +71,23 @@ class SalaryController extends Controller
     public function update(Request $request, Salary $salary)
     {
         $request->validate([
-            'driver_name' => 'required|string|max:255',
+            //'driver_name' => 'required|string|max:255',
             'basic' => 'required|numeric',
             'fuel_expense' => 'nullable|numeric',
             'other_expense' => 'nullable|numeric',
         ]);
 
-        $data = $request->only(['driver_name', 'basic', 'fuel_expense', 'other_expense']);
+        $data = $request->only([ 'basic', 'fuel_expense', 'other_expense']);
         $data['total_pay'] = $data['basic'] + ($data['fuel_expense'] ?? 0) + ($data['other_expense'] ?? 0);
 
         $salary->update($data);
-        return redirect()->route('pages.support_team.salaries.index')->with('success', 'Salary updated successfully');
+        return redirect()->route('salaries.index')->with('success', 'Salary updated successfully');
     }
 
     public function destroy(Salary $salary)
     {
         $salary->delete();
+        return back()->with('flash_success', __('msg.del_ok'));
         return redirect()->route('pages.support_team.salaries.index')->with('success', 'Salary deleted successfully');
     }
 

@@ -113,7 +113,7 @@
                              <div class="form-group row">
                                 <label class="col-lg-3 col-form-label font-weight-semibold">Image <span class="text-danger">*</span></label>
                                 <div class="col-lg-9">
-                                    <input name="image"  required type="file" class="form-control" placeholder="e.g. 2020">
+                                    <input name="photo"  required type="file" class="form-control" placeholder="e.g. 2020">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -121,7 +121,7 @@
                                     <div class="col-lg-9">
                                         <select required data-placeholder="Select Class Type" class="form-control select" name="bus_id" id="bus_id">
 
-                                               @foreach($bus as $ct)
+                                               @foreach($busList as $ct)
                                                 <option {{ old('bus_id') == @$ct->id ? 'selected' : '' }} value="{{ @$ct->id  ?? ''}}">{{ $ct->number_plate ?? 'sds' }}</option>
                                             @endforeach
                                         </select>

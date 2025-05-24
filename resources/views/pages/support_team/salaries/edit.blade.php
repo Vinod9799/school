@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('page_title', 'Edit Bus - '.$driver->number_plate)
+@section('page_title')
 @section('content')
 
 <div class="card">
@@ -11,36 +11,31 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="post" action="{{ route('drivers.update', $driver->id) }}">
+                <form method="post" action="{{ route('salaries.update', $salary->id) }}">
                     @csrf
                     @method('PUT')
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Name <span class="text-danger">*</span></label>
+                        <label class="col-lg-3 col-form-label font-weight-semibold">Basic <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input name="name" value="{{ $driver->name }}" required type="text" class="form-control" placeholder="e.g. ABC-1234">
+                            <input name="basic" value="{{ $salary->basic }}" required type="text" class="form-control" >
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Licence Number  <span class="text-danger">*</span></label>
+                        <label class="col-lg-3 col-form-label font-weight-semibold">Fuel Expense Number  <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input name="license_number" value="{{ $driver->license_number }}" required type="text" class="form-control" placeholder="e.g. Toyota Coaster">
+                            <input name="fuel_expense" value="{{ $salary->fuel_expense }}" required type="text" class="form-control" placeholder="e.g. Toyota Coaster">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Phone <span class="text-danger">*</span></label>
+                        <label class="col-lg-3 col-form-label font-weight-semibold">Other Expense <span class="text-danger">*</span></label>
                         <div class="col-lg-9">
-                            <input name="phone" value="{{ $driver->phone }}" required type="number" class="form-control" placeholder="e.g. 2020">
+                            <input name="other_expense" value="{{ $salary->other_expense }}" required type="number" class="form-control" placeholder="e.g. 2020">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label font-weight-semibold">Address <span class="text-danger">*</span></label>
-                        <div class="col-lg-9">
-                            <input name="address" value="{{ $driver->address }}" required type="text" class="form-control" placeholder="e.g. 2020">
-                        </div>
-                    </div>
+                    
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Update Bus <i class="icon-paperplane ml-2"></i></button>

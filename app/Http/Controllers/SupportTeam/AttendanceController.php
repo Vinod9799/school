@@ -38,9 +38,11 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::all();
         $classes  = MyClass::all();
-        $bus = Bus::all();
-        $students = User::all();
-        return view('pages.support_team.attendance.index',compact('attendance','classes','bus','students'));
+        $busList = Bus::all();
+        $teacher = User::where('user_type','teacher')->get();
+        $students = User::where('user_type','student')->get();
+        //dd($students);
+        return view('pages.support_team.attendance.index',compact('attendance','classes','busList','students','teacher'));
     }
 
     public function create()
@@ -73,17 +75,17 @@ class AttendanceController extends Controller
             'status' => $request->status,
             'teacher_id' => Auth::id(), // assuming logged in teacher
         ]);
-
+        return Qs::jsonStoreOk();
         return redirect()->route('attendance.index')->with('flash_success', 'Attendance marked successfully.');
     }
 
 
-    public function show(attendance $bus)
+    public function show(attendance $attendance)
     {
         return view('pages.support_team.attendance.show', compact('bus'));
     }
 
-    public function edit(attendance $attendance)
+    public function edit(Attendance $attendance)
     {
         return view('pages.support_team.attendance.edit', compact('attendance'));
     }
@@ -104,9 +106,9 @@ class AttendanceController extends Controller
 }
 
 
-    public function destroy(attendance $bus)
+    public function destroy(Attendance $attendance)
     {
-        $bus->delete();
+        $attendance->delete();
         return redirect()->route('pages.support_team.attendance.index')->with('success', 'Bus deleted.');
     }
 }

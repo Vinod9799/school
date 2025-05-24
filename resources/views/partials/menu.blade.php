@@ -220,7 +220,7 @@
                 </li>
 
                 @if(Qs::userIsTeamSAT())
-                    <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['students.create', 'students.list', 'students.edit', 'students.show', 'students.promotion', 'students.promotion_manage', 'students.graduated']) ? 'nav-item-expanded nav-item-open' : '' }} ">
+                    <li class="nav-item nav-item-submenu {{ in_array(Route::currentRouteName(), ['buses.index','buses.edit','drivers.index','drivers.edit','salaries.index','salaries.edit','attendance.index','attendance.edit','teacher-attendance.index']) ? 'nav-item-expanded nav-item-open' : '' }} ">
                         <a href="#" class="nav-link"><i class="icon-users"></i> <span> Drivers</span></a>
 
                         <ul class="nav nav-group-sub" data-submenu-title="Manage Students">
@@ -228,7 +228,7 @@
                             @if(Qs::userIsTeamSA())
                                 <li class="nav-item">
                                     <a href="{{ route('buses.index') }}"
-                                       class="nav-link {{ (Route::is('buses.index')) ? 'active' : '' }}">Bus</a>
+                                       class="nav-link {{ in_array(Route::currentRouteName(), ['buses.index','buses.edit']) ? 'active' : '' }}">Bus</a>
                                 </li>
                             @endif
                             @if(Qs::userIsTeamSA())
@@ -246,15 +246,16 @@
                             @if(Qs::userIsTeamSA())
                             <li class="nav-item">
                                 <a href="{{ route('attendance.index') }}"
-                                    class="nav-link {{ (Route::is('attendance.index')) ? 'active' : '' }}">Attendance</a>
+                                    class="nav-link {{ (Route::is('attendance.index')) ? 'active' : '' }}">Student-Attendance</a>
+                            </li>
+                            @endif
+                              @if(Qs::userIsTeamSA())
+                            <li class="nav-item">
+                                <a href="{{ route('teacher-attendance.index') }}"
+                                    class="nav-link {{ (Route::is('teacher-attendance.index')) ? 'active' : '' }}">Teacher-Attendance</a>
                             </li>
                             @endif
                             {{--Student Information--}}
-
-
-
-
-
 
                         </ul>
                     </li>

@@ -7,6 +7,7 @@ use App\Models\Lga;
 use App\Models\Nationality;
 use App\Models\StaffRecord;
 use App\Models\State;
+use App\Models\Attendance;
 use App\Models\StudentRecord;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -64,4 +65,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(StaffRecord::class);
     }
+  
 }

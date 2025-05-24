@@ -24,7 +24,6 @@
                             <th>Student</th>
                             <th>Class</th>
                             <th>Status</th>
-                            <th>Teacher</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -32,10 +31,9 @@
                         @foreach($attendance as $record)
                             <tr>
                                 <td>{{ $record->date }}</td>
-                                <td>{{ $record->student->name ?? '-' }}</td>
-                                <td>{{ $record->class->name ?? '-' }}</td>
+                                <td>{{ $record->attendance->name ?? '-' }}</td>
+                                <td>{{ $record->studentClass->name ?? '-' }}</td>
                                 <td>{{ ucfirst($record->status) }}</td>
-                                <td>{{ $record->teacher->name ?? '-' }}</td>
                                 <td class="text-center">
                                     <div class="list-icons">
                                         <div class="dropdown">
@@ -86,11 +84,11 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="class_id" class="col-lg-3 col-form-label font-weight-semibold">Class</label>
+                                <label for="classes" class="col-lg-3 col-form-label font-weight-semibold">Class</label>
                                 <div class="col-lg-9">
                                     <select required class="form-control select" name="class_id" id="class_id">
-                                        @foreach($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                        @foreach($classes as $ech)
+                                            <option value="{{ $ech->id }}">{{ $ech->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

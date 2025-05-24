@@ -51,8 +51,7 @@ class BusController extends Controller
         ]);
 
         Bus::create($request->only(['number_plate', 'model', 'year']));
-
-        return redirect()->back()->with('success', 'Bus added successfully');
+        return Qs::jsonStoreOk();
     }
 
 
@@ -71,12 +70,12 @@ class BusController extends Controller
     $request->validate([
         'number_plate' => 'required|unique:buses,number_plate,' . $id,
         'model' => 'required|string',
-        'year' => 'required|digits:4|integer',
+        'year' => 'required',
     ]);
 
     $bus = Bus::findOrFail($id);
     $bus->update($request->only(['number_plate', 'model', 'year']));
-
+    // return Qs::jsonStoreOk();
     return redirect()->route('buses.index')->with('success', 'Bus updated successfully');
 }
 
@@ -84,6 +83,7 @@ class BusController extends Controller
     public function destroy(Bus $bus)
     {
         $bus->delete();
+        return back()->with('flash_success', __('msg.del_ok'));
         return redirect()->route('pages.support_team.buses.index')->with('success', 'Bus deleted.');
     }
 }

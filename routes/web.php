@@ -149,6 +149,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('salaries', 'SalaryController');
         Route::resource('fuel-expenses', 'FuelExpenseController');
         Route::resource('attendance', 'AttendanceController');
+        Route::resource('teacher-attendance', 'TeacherAttendanceController');
+        //Route::post('selector', 'MarkController@selector')->name('marks.selector');
+        Route::post('/teacher-attendance/mark', 'TeacherAttendanceController@mark')->name('teacher-presents.mark');
+        Route::resource('leave', 'LeaveController');
     });
 
     /************************ AJAX ****************************/

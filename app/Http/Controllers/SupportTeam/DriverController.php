@@ -35,8 +35,8 @@ class DriverController extends Controller
     public function index()
     {
         $driver = Driver::all();
-        $bus = Bus::all();
-       return view('pages.support_team.driver.index',compact('driver','bus'));
+        $busList = Bus::get();
+       return view('pages.support_team.driver.index',compact('driver','busList'));
     }
 
     public function create()
@@ -52,20 +52,24 @@ class DriverController extends Controller
             'phone' => 'required',
             'address' => 'required',
             'bus_id' => 'required',
-            'image' =>"required"
+            'photo' => 'required|image' // make sure this matches your form field
         ]);
-         if($request->hasFile('photo')) {
+
+        $data = $request->only(['name', 'license_number', 'phone', 'address', 'bus_id']);
+
+        if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath('driver'), $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            $data['image'] = asset('storage/' . $f['path']);
         }
-        Driver::create($request->all());
 
-        return redirect()->back()->with('success', 'Bus added successfully');
+        Driver::create($data);
+        return Qs::jsonStoreOk();
+
+        return redirect()->back()->with('success', 'Driver added successfully');
     }
-
 
     public function show(Driver $bus)
     {
@@ -88,14 +92,15 @@ class DriverController extends Controller
 
     $bus = Driver::findOrFail($id);
     $bus->update($request->only(['name', 'license_number', 'phone','address']));
-
+    //return Qs::jsonUpdateOk();
     return redirect()->route('drivers.index')->with('success', 'Bus updated successfully');
 }
 
 
-    public function destroy(Driver $bus)
+    public function destroy(Driver $driver)
     {
-        $bus->delete();
-        return redirect()->route('pages.support_team.driver.index')->with('success', 'Bus deleted.');
+        $driver->delete();
+        return back()->with('flash_success', __('msg.del_ok'));
+        return redirect()->route('drivers.index')->with('success', 'Bus deleted.');
     }
 }
